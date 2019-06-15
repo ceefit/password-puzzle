@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import PasswordForm from "./PasswordForm";
 
 function MadeWithLove() {
   return (
@@ -64,28 +65,7 @@ export default function SignIn() {
           Set Password
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="password"
-            label="Password"
-            name="password"
-            autoComplete="password"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="repeat_password"
-            label="Repeat Password"
-            type="password"
-            id="repeat_password"
-            autoComplete="current-password"
-          />
+          <PasswordForm />
           <Button
             type="submit"
             fullWidth
