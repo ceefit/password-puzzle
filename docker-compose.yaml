@@ -5,6 +5,14 @@ services:
     build: .
     volumes:
       - ./:/app
-    command: gunicorn application:application -b :8080 --worker-class aiohttp.GunicornWebWorker --reload --access-logfile -
+    command: gunicorn application:application -b :8080 --worker-class aiohttp.GunicornWebWorker --workers=12 --reload --access-logfile -
     ports:
       - "9000:8080"
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./:/app
+    command: npm start
+    ports:
+      - "9090:3000"
