@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  api:
+    build: .
+    volumes:
+      - ./:/app
+    command: gunicorn application:application -b :8080 --worker-class aiohttp.GunicornWebWorker --reload --access-logfile -
+    ports:
+      - "9000:8080"
