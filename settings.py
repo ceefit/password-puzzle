@@ -2,7 +2,8 @@ import os
 import sys
 
 _DEFAULTS = {
-    'HTTP_PORT': 8080
+    'HTTP_PORT': 8080,
+    'FRONTEND_HOST': 'http://localhost:3000'
 }
 
 for k, v in _DEFAULTS.items():

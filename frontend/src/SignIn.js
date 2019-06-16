@@ -49,7 +49,6 @@ export default function SignIn() {
         <form className={classes.form} noValidate>
           <PasswordForm />
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"

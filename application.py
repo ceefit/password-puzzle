@@ -5,11 +5,16 @@ import settings
 
 
 def set_routes(app):
+    """
+    Set up routes and CORS configuration (for development mode)
+    :param app:
+    :return:
+    """
     application_cors = aiohttp_cors.setup(app)
     check_password_resource = application_cors .add(app.router.add_resource("/check-password"))
     check_password_route = application_cors.add(
         check_password_resource.add_route("POST", check_password), {
-            "http://localhost:3000": aiohttp_cors.ResourceOptions(
+            settings.FRONTEND_HOST: aiohttp_cors.ResourceOptions(
                 allow_credentials=True,
                 expose_headers=("X-Custom-Server-Header",),
                 allow_headers=("X-Requested-With", "Content-Type"),
