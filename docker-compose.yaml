@@ -7,7 +7,7 @@ services:
       - ./:/app
     command: gunicorn application:application -b :8080 --worker-class aiohttp.GunicornWebWorker --workers=12 --reload --access-logfile -
     ports:
-      - "9000:8080"
+      - "10001:8080"
 
   frontend:
     build: ./frontend
@@ -15,4 +15,4 @@ services:
       - ./:/app
     command: npm start
     ports:
-      - "9090:3000"
+      - "10002:3000"

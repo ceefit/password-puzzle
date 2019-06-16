@@ -1,50 +1,45 @@
 import React from 'react';
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import TextField from "@material-ui/core/TextField";
 
 export default class PasswordForm extends React.Component {
-
     state = {
         password: '',
+        isValid: false,
+        errorMessage: ''
     };
 
     componentDidMount() {
-        ValidatorForm.addValidationRule('contains-vowel', (value) => {
-            const vowels = ['a', 'e', 'i', 'o', 'u'];
-            for (let i = 0; i < vowels.length; i++) {
-                if (value.includes(vowels[i])) {
-                    return true;
-                }
-            }
-            return false;
-        });
-
-        ValidatorForm.addValidationRule('min-length-6', (value) => {
-            return value.length >= 6;
-        });
     };
 
     componentWillUnmount() {
-        ValidatorForm.removeValidationRule('contains-vowel');
     };
 
     handleChange = (event) => {
-        let { password } = this.state;
-        password = event.target.value;
-        this.setState({password});
-    };
+        const { REACT_APP_API_HOST } = process.env;
 
-    handleSubmit = () => {
+        let password = event.target.value;
+        this.setState({password});
+
+        let data = {'user_id': 'some dood',
+                    'password': password};
+
+        fetch(REACT_APP_API_HOST + '/check-password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+          }).then(res => res.json())
+            .then(json => this.setState( json ));
     };
 
     render() {
-        const {password} = this.state;
+        const {password, isValid, errorMessage} = this.state;
 
         return (
-            <ValidatorForm
-                onSubmit={this.handleSubmit}
-            >
-                <TextValidator
+            <React.Fragment>
+                <TextField
+                    error={!isValid}
                     variant="outlined"
                     margin="normal"
                     required
@@ -53,11 +48,9 @@ export default class PasswordForm extends React.Component {
                     label="Password"
                     name="password"
                     type="password"
+                    helperText={errorMessage}
                     autoFocus
                     onChange={this.handleChange}
-
-                    validators={['min-length-6', 'contains-vowel']}
-                    errorMessages={['password must be at least 6 characters long', 'password must contain a vowel']}
                     value={password}
                 />
                 <TextField
@@ -70,7 +63,8 @@ export default class PasswordForm extends React.Component {
                     name="repeat_password"
                     type="password"
                 />
-            </ValidatorForm>
+            </React.Fragment>
+
         );
     }
 }
