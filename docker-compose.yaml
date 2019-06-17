@@ -8,6 +8,8 @@ services:
     command: gunicorn application:application -b :8080 --worker-class aiohttp.GunicornWebWorker --workers=12 --reload --access-logfile -
     ports:
       - "10001:8080"
+    links:
+      - mongodb
 
   frontend:
     build: ./frontend
@@ -16,3 +18,8 @@ services:
     command: npm start
     ports:
       - "10002:3000"
+
+  mongodb:
+    image: mvertes/alpine-mongo
+    ports:
+      - "27020:27017"

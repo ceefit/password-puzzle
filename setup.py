@@ -25,6 +25,7 @@ install_requires = [
     'aiohttp==3.5.4',
     'gunicorn==19.9.0',
     'aiohttp-cors==0.7.0',
+    'pymongo==3.8.0'
 ]
 
 

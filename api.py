@@ -1,5 +1,7 @@
 import json
+import pymongo
 import random
+import uuid
 
 from aiohttp import web_request, web
 
@@ -43,6 +45,29 @@ def validate_vowels(password):
         is_valid = True
 
     return is_valid, error_message
+
+
+def copy_pasta_detector(user_id, password):
+    """
+    Checks the password against what the user last submitted to see if they have been copy-pasting passwords.
+    We should ever see a difference of one letter added, or one or many characters removed unless they're
+    pulling some bullshit.
+    :param user_id:
+    :param password:
+    :return:
+    """
+    pass
+
+
+def generate_user_id(request: web_request):
+    user_id = str(uuid.uuid4())
+
+    mongo_client = pymongo.MongoClient("mongodb://localhost:27020/", serverSelectionTimeoutMS=1000)
+    mongodb = mongo_client["password-puzzle"]
+    puzzle_table = mongodb["password-puzzle"]
+    puzzle_table.insert_one({'user-id': user_id})
+
+    return web.Response(body=json.dumps({'user-id': user_id}))
 
 
 async def check_password(request: web_request):
